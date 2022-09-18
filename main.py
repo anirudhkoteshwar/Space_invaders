@@ -136,6 +136,8 @@ while running:
         bullet_y = 480
         bullet_state = "ready"
         score += 1
+        enemy_x = rnd.randint(0, 734)
+        enemy_y = rnd.randint(50, 150)
         print(score)
     
     
