@@ -50,7 +50,11 @@ bullet_y_change = 1.2
 bullet_state = "ready"
 bullet_speed = 0.5
 
-score = 0
+#score
+score_value = 0
+font = pyg.font.Font('freesansbold.ttf',32)
+text_x = 10
+text_y = 10
 
 #draw the player sprite on the screen
 def player(x,y):
@@ -73,6 +77,11 @@ def isCollision(enemy_x,enemy_y,bullet_x, bullet_y,state):
         return True
     else:
         return False
+
+def show_score(x,y):
+    score = font.render(f"Score: {score_value}", True, (255,255,255)) 
+    screen.blit(score, (x,y))
+
 
 #Game loop
 running = True
@@ -132,12 +141,14 @@ while running:
         if isCollision(enemy_x[i], enemy_y[i], bul_x, bullet_y, bullet_state):
             bullet_y = 480
             bullet_state = "ready"
-            score += 1
+            score_value += 1
             enemy_x[i] = rnd.randint(0, 734)
             enemy_y[i] = rnd.randint(50, 150)
-            print(score)
         enemy(enemy_x[i], enemy_y[i], enemyimg[i])
     
+    #show score
+    show_score(text_x, text_y)
+
     #Bullet movement
     if bullet_y <= -5:
         bullet_y = 480
