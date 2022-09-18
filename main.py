@@ -25,12 +25,18 @@ player_y_change = 0
 player_speed = 0.5
 
 #Enemy
-enemyimg = pyg.image.load('ufo.png') #load enemy sprite
-#set position of enemy sprite
-enemy_x = rnd.randint(0, 734)
-enemy_y = rnd.randint(50, 150)
-enemy_x_change = 0.1
-enemy_y_change = 0.02
+enemyimg = []
+enemy_x = []
+enemy_y = []
+enemy_x_change = []
+enemy_y_change = []
+num_enemies = 6
+for i in range(num_enemies):
+    enemyimg.append(pyg.image.load('ufo.png'))
+    enemy_x.append(rnd.randint(0, 734))
+    enemy_y.append(rnd.randint(50, 150))
+    enemy_x_change.append(0.1)
+    enemy_y_change.append(0.02)
 
 
 #Bullet
@@ -50,8 +56,8 @@ def player(x,y):
     screen.blit(playerimg, (x, y))
 
 #draw the enemy sprite
-def enemy(x, y):
-    screen.blit(enemyimg, (x, y))
+def enemy(x, y, enemy):
+    screen.blit(enemy, (x, y))
 
 #fire the bullet
 def fire_bullet(x,y):
@@ -109,18 +115,28 @@ while running:
 #        player_y = 0
 #    elif player_y > 536:
 #        player_y = 536
+    for i in range(num_enemies):
+        enemy_x[i] += enemy_x_change[i]
+        enemy_y[i] += enemy_y_change[i]
+        
+        if enemy_x[i] < 0:
+            enemy_x[i] = 0
+            enemy_x_change[i] = -enemy_x_change[i]
+            enemy_y[i] += enemy_y_change[i]
+        elif enemy_x[i] > 736:
+            enemy_x[i] = 736
+            enemy_x_change[i] = -enemy_x_change[i]
+            enemy_y[i] += enemy_y_change[i]
+        #Collision
+        if isCollision(enemy_x[i], enemy_y[i], bul_x, bullet_y, bullet_state):
+            bullet_y = 480
+            bullet_state = "ready"
+            score += 1
+            enemy_x[i] = rnd.randint(0, 734)
+            enemy_y[i] = rnd.randint(50, 150)
+            print(score)
 
-    enemy_x += enemy_x_change
-    enemy_y += enemy_y_change
-
-    if enemy_x < 0:
-        enemy_x = 0
-        enemy_x_change = -enemy_x_change
-        enemy_y += enemy_y_change
-    elif enemy_x > 736:
-        enemy_x = 736
-        enemy_x_change = -enemy_x_change
-        enemy_y += enemy_y_change
+        enemy(enemy_x[i], enemy_y[i], enemyimg[i])
     
     #Bullet movement
     if bullet_y <= -5:
@@ -129,19 +145,7 @@ while running:
 
     if bullet_state == "fire":
         fire_bullet(bul_x, bullet_y)
-        bullet_y -= bullet_y_change
-    
-    #Collision
-    if isCollision(enemy_x, enemy_y,bul_x, bullet_y, bullet_state):
-        bullet_y = 480
-        bullet_state = "ready"
-        score += 1
-        enemy_x = rnd.randint(0, 734)
-        enemy_y = rnd.randint(50, 150)
-        print(score)
-    
+        bullet_y -= bullet_y_change    
     
     player(player_x, player_y)    
-    enemy(enemy_x, enemy_y)
-
     pyg.display.update()
