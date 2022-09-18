@@ -52,7 +52,7 @@ bullet_speed = 0.5
 
 #score
 score_value = 0
-font = pyg.font.Font('freesansbold.ttf',32)
+font = pyg.font.Font('8bitOperatorPlus8-Regular.ttf',32)
 text_x = 10
 text_y = 10
 
