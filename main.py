@@ -16,6 +16,7 @@ playerimg = pyg.image.load('battleship.png') #load player sprite
 
 #Background
 backgroundimg = pyg.image.load('space_background_2_edited.png').convert() #load background
+gameover = pyg.image.load('game_over.jpg').convert()
 
 #set position of player sprite
 player_x = 370 
@@ -135,7 +136,6 @@ while running:
             enemy_x[i] = rnd.randint(0, 734)
             enemy_y[i] = rnd.randint(50, 150)
             print(score)
-
         enemy(enemy_x[i], enemy_y[i], enemyimg[i])
     
     #Bullet movement
