@@ -31,7 +31,7 @@ enemy_x = []
 enemy_y = []
 enemy_x_change = []
 enemy_y_change = []
-num_enemies = 6
+num_enemies = 7
 for i in range(num_enemies):
     enemyimg.append(pyg.image.load('ufo.png'))
     enemy_x.append(rnd.randint(0, 734))
