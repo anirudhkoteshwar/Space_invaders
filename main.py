@@ -29,8 +29,8 @@ enemyimg = pyg.image.load('ufo.png') #load enemy sprite
 #set position of enemy sprite
 enemy_x = rnd.randint(0, 734)
 enemy_y = rnd.randint(50, 150)
-enemy_x_change = 0.2
-enemy_y_change = 0.05
+enemy_x_change = 0.1
+enemy_y_change = 0.02
 
 
 #Bullet
@@ -38,7 +38,7 @@ bulletimg = pyg.image.load('minus_32.png')
 bullet_x = 0
 bullet_y = 480
 bullet_x_change = 0
-bullet_y_change = 3
+bullet_y_change = 1.2
 bullet_state = "ready"
 bullet_speed = 0.5
 
@@ -59,9 +59,9 @@ def fire_bullet(x,y):
     screen.blit(bulletimg, (x+16, y+10))
 
 #Check if collision occured
-def isCollision(enemy_x,enemy_y,bullet_x, bullet_y):
+def isCollision(enemy_x,enemy_y,bullet_x, bullet_y,state):
     dist = math.sqrt((math.pow(enemy_x - bullet_x, 2)) + (math.pow(enemy_y - bullet_y, 2)))
-    if dist <= 27:
+    if dist < 40 and state == "fire":
         return True
     else:
         return False
@@ -132,8 +132,7 @@ while running:
         bullet_y -= bullet_y_change
     
     #Collision
-    collision = isCollision(enemy_x, enemy_y,bullet_x, bullet_y)
-    if collision:
+    if isCollision(enemy_x, enemy_y,bullet_x, bullet_y, bullet_state):
         bullet_y = 480
         bullet_state = "ready"
         score += 1
