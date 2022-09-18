@@ -1,5 +1,6 @@
 import pygame as pyg
 import random as rnd
+import math
 
 # Initialize pygame
 pyg.init()
@@ -28,7 +29,7 @@ enemyimg = pyg.image.load('ufo.png') #load enemy sprite
 #set position of enemy sprite
 enemy_x = rnd.randint(0, 734)
 enemy_y = rnd.randint(50, 150)
-enemy_x_change = 0.5
+enemy_x_change = 0.2
 enemy_y_change = 0.05
 
 
@@ -37,25 +38,33 @@ bulletimg = pyg.image.load('minus_32.png')
 bullet_x = 0
 bullet_y = 480
 bullet_x_change = 0
-bullet_y_change = 8
+bullet_y_change = 3
 bullet_state = "ready"
-bullet_speed = 0.75
+bullet_speed = 0.5
 
 score = 0
 
-# draw the player sprite on the screen
+#draw the player sprite on the screen
 def player(x,y):
     screen.blit(playerimg, (x, y))
 
+#draw the enemy sprite
 def enemy(x, y):
     screen.blit(enemyimg, (x, y))
 
+#fire the bullet
 def fire_bullet(x,y):
     global bullet_state
     bullet_state = "fire"
     screen.blit(bulletimg, (x+16, y+10))
 
-def isCollision
+#Check if collision occured
+def isCollision(enemy_x,enemy_y,bullet_x,bullet_y):
+    dist = math.sqrt((math.pow(enemy_x - bullet_x, 2)) + (math.pow(enemy_y - bullet_y, 2)))
+    if dist < 27:
+        return True
+    else:
+        return False
 
 #Game loop
 running = True
@@ -74,7 +83,7 @@ while running:
 #          if event.key == pyg.K_DOWN:
 #                player_y_change = player_speed
             if event.key == pyg.K_SPACE:
-                if bullet_state is "ready":
+                if bullet_state == "ready":
                     bul_x = player_x
                     fire_bullet(bul_x, bullet_y)
         if event.type == pyg.KEYUP:
@@ -113,14 +122,24 @@ while running:
         enemy_y += enemy_y_change
     
     #Bullet movement
-    if bullet_y <= -10:
+    if bullet_y <= -5:
         bullet_y = 480
         bullet_state = "ready"
 
-    if bullet_state is "fire":
+    if bullet_state == "fire":
         fire_bullet(bul_x, bullet_y)
         bullet_y -= bullet_y_change
     
+    #Collision
+    collision = isCollision(enemy_x, enemy_y, bullet_x, bullet_y)
+    if collision:
+        bullet_y = 480
+        bullet_state = "ready"
+        score += 1
+        print(score)
+    
+
     player(player_x, player_y)    
     enemy(enemy_x, enemy_y)
+
     pyg.display.update()
