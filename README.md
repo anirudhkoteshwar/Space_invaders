@@ -1,4 +1,4 @@
 # Space_invaders
 A Space Invaders clone written in python using the pygame library <br />
-I wrote this following the video guide provided by FreeCodeCamp on youtube <br />
+The purpose of this program is to understand the pygame library, and was written following the guide provided by FreeCodeCamp.org on youtube <br />
 https://www.youtube.com/watch?v=FfWpgLFMI7w
