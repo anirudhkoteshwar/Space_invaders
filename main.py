@@ -59,9 +59,9 @@ def fire_bullet(x,y):
     screen.blit(bulletimg, (x+16, y+10))
 
 #Check if collision occured
-def isCollision(enemy_x,enemy_y,bullet_x,bullet_y):
+def isCollision(enemy_x,enemy_y,bullet_x, bullet_y):
     dist = math.sqrt((math.pow(enemy_x - bullet_x, 2)) + (math.pow(enemy_y - bullet_y, 2)))
-    if dist < 27:
+    if dist <= 27:
         return True
     else:
         return False
@@ -84,6 +84,7 @@ while running:
 #                player_y_change = player_speed
             if event.key == pyg.K_SPACE:
                 if bullet_state == "ready":
+                    global bul_x
                     bul_x = player_x
                     fire_bullet(bul_x, bullet_y)
         if event.type == pyg.KEYUP:
@@ -131,14 +132,13 @@ while running:
         bullet_y -= bullet_y_change
     
     #Collision
-    collision = isCollision(enemy_x, enemy_y, bullet_x, bullet_y)
+    collision = isCollision(enemy_x, enemy_y,bullet_x, bullet_y)
     if collision:
         bullet_y = 480
         bullet_state = "ready"
         score += 1
         print(score)
     
-
     player(player_x, player_y)    
     enemy(enemy_x, enemy_y)
 
